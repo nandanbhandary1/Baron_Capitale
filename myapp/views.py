@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from myapp.models import BLogPost
+from myapp.forms import BlogPostForm
 
 # Create your views here.
 
@@ -7,11 +8,21 @@ from myapp.models import BLogPost
 def get_post(request):
     if request.method == "GET":
         a = BLogPost.objects.all()
-        return (request, a)
+        context = {"blog": a}
+        return render(request, "home.html", context)
 
 
 def create_post(request):
-    pass
+    if request.method == "POST":
+        form = BlogPostForm(request.POST)
+        if form.is_valid():
+            blog_post = form.save(commit=False)
+
+            blog_post.save()
+            return redirect("blog_list")
+    else:
+        form = BlogPostForm()
+    return render(request, "post.html", {"form": form})
 
 
 def update_post(request, id):
