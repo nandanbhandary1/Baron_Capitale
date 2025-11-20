@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from myapp.models import Post
+from myapp.models import BLogPost
 
 # Create your views here.
 
 
 def get_post(request):
-    a = Post.objects.all()
-    return (request, a)
+    if request.method == "GET":
+        a = BLogPost.objects.all()
+        return (request, a)
 
 
 def create_post(request):
@@ -14,11 +15,12 @@ def create_post(request):
 
 
 def update_post(request, id):
-    a = Post.objects.get(id=id)
-    if a.is_valid():
-        return a
+    if request.method == "POST":
+        a = BLogPost.objects.get(id=id)
+        if a.is_valid():
+            return a
 
 
 def delete_post(request, id):
-    a = Post.objects.get(id=id)
+    a = BLogPost.objects.get(id=id)
     a.delete()

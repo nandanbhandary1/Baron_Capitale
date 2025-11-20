@@ -24,5 +24,5 @@ urlpatterns = [
     path("posts/", get_post),
     path("pposts/", create_post),
     path("posts/<int:id>", update_post),
-    path("dposts/<int:id", delete_post),
+    path("dposts/<int:id>", delete_post),
 ]
